@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ваша страница с частицами</title>
+    <title>OrpoPro / OrpoProlom</title>
     <style>
         * {
             margin: 0;
@@ -14,10 +14,11 @@
         body, html {
             height: 100%;
             font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
         }
 
         #particles-js {
-            position: absolute;
+            position: fixed;
             width: 100%;
             height: 100%;
             background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
@@ -30,7 +31,7 @@
             color: white;
             text-align: center;
             padding: 2rem;
-            height: 100%;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -50,28 +51,89 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
 
-        .links a {
+        .links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
             color: #fff;
             text-decoration: none;
-            margin: 0 1rem;
-            padding: 0.5rem 1rem;
+            padding: 0.8rem 1.5rem;
             border: 2px solid rgba(255,255,255,0.3);
             border-radius: 25px;
             transition: all 0.3s ease;
+            cursor: pointer;
+            background: rgba(0,0,0,0.2);
+            font-size: 1rem;
         }
 
-        .links a:hover {
+        .btn:hover {
             background: rgba(255,255,255,0.1);
             border-color: rgba(255,255,255,0.6);
             transform: translateY(-2px);
         }
 
+        .hidden-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 1rem;
+        }
+
+        .content-visible {
+            max-height: 500px;
+            transition: max-height 0.5s ease-in;
+        }
+
+        .content-block {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem 0;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .content-item {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+
+        .content-item a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .content-item a:hover {
+            text-decoration: underline;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            margin: 1.5rem 0;
+            width: 100%;
+        }
+
         @media (max-width: 768px) {
             h1 { font-size: 2rem; }
             p { font-size: 1rem; }
-            .links a {
-                display: block;
-                margin: 0.5rem 0;
+            .links {
+                flex-direction: column;
+                align-items: center;
+            }
+            .btn {
+                width: 200px;
+                text-align: center;
             }
         }
     </style>
@@ -84,9 +146,50 @@
     <div class="content">
         <h1>OrpoPro или OrpoProlom</h1>
         <p>Информация обо мне</p>
+        
         <div class="links">
-            <a href="https://github.com/ваш_логин" target="_blank">Ссылки</a>
-            <a href="mailto:your.email@example.com">Мнения</a>
+            <div class="btn" onclick="toggleContent('links-content')">Ссылки</div>
+            <div class="btn" onclick="toggleContent('opinions-content')">Мнения</div>
+        </div>
+
+        <!-- Скрытый контент для ссылок -->
+        <div id="links-content" class="hidden-content">
+            <div class="content-block">
+                <h3>Мои проекты и ссылки</h3>
+                <div class="divider"></div>
+                <div class="content-item">
+                    <a href="https://github.com/ваш_логин" target="_blank">GitHub</a> - Мои проекты и код
+                </div>
+                <div class="content-item">
+                    <a href="https://linkedin.com/in/ваш_профиль" target="_blank">LinkedIn</a> - Профессиональный профиль
+                </div>
+                <div class="content-item">
+                    <a href="https://t.me/ваш_ник" target="_blank">Telegram</a> - Для связи
+                </div>
+                <div class="content-item">
+                    <a href="https://мой-проект.ru" target="_blank">Мой главный проект</a> - Описание проекта
+                </div>
+            </div>
+        </div>
+
+        <!-- Скрытый контент для мнений -->
+        <div id="opinions-content" class="hidden-content">
+            <div class="content-block">
+                <h3>Мнения и мысли</h3>
+                <div class="divider"></div>
+                <div class="content-item">
+                    <strong>О технологиях:</strong> Верю в силу открытого кода и сообщества
+                </div>
+                <div class="content-item">
+                    <strong>О разработке:</strong> Чистый код > быстрый код
+                </div>
+                <div class="content-item">
+                    <strong>О будущем:</strong> ИИ изменит всё, но люди останутся людьми
+                </div>
+                <div class="content-item">
+                    <strong>О обучении:</strong> Учиться нужно всю жизнь, особенно в IT
+                </div>
+            </div>
         </div>
     </div>
 
@@ -167,6 +270,42 @@
                 },
                 "retina_detect": true
             });
+        });
+
+        // Функция для показа/скрытия контента
+        function toggleContent(contentId) {
+            const content = document.getElementById(contentId);
+            const allContents = document.querySelectorAll('.hidden-content');
+            
+            // Сначала скрываем все блоки
+            allContents.forEach(item => {
+                if (item.id !== contentId) {
+                    item.classList.remove('content-visible');
+                }
+            });
+            
+            // Переключаем текущий блок
+            content.classList.toggle('content-visible');
+            
+            // Плавная прокрутка к контенту
+            if (content.classList.contains('content-visible')) {
+                setTimeout(() => {
+                    content.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                }, 300);
+            }
+        }
+
+        // Закрывать контент при клике вне области
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.btn') && !event.target.closest('.hidden-content')) {
+                const allContents = document.querySelectorAll('.hidden-content');
+                allContents.forEach(item => {
+                    item.classList.remove('content-visible');
+                });
+            }
         });
     </script>
 </body>
