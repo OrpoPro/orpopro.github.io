@@ -1,1 +1,1 @@
-[Это информация обо мне](https://orpopro.github.io)
+[Моя страница](https://orpopro.github.io)
