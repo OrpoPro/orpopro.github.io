@@ -1,4 +1,3 @@
-// Данные для ссылок
 const linksData = [
     { name: "YouTube", url: "https://www.youtube.com/@OrpoPro" },
     { name: "GitHub", url: "https://github.com/OrpoPro" },
@@ -7,12 +6,11 @@ const linksData = [
     { name: "NameMc", url: "https://ru.namemc.com/profile/OrpoPro.1" }
 ];
 
-// Данные для мнений
 const opinionsData = [
     { title: "Tlauncher", text: "помойка и просто плохой лаунчер с вирусами" },
     { title: "Legacy", text: "так себе, есть куда лучше" },
     { title: "Java", text: "лучше чем Bedrock" },
     { title: "Атеизм", text: "слепая вера, а большинство атеистов — вообще не атеисты" },
     { title: "Аборты", text: "убийство человека" },
-    { title: "Слава Икабу", text: "" }
+    { title: "Слава", text: "Икабу" }
 ];
