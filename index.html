@@ -39,6 +39,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding-bottom: 3rem; /* Исправление: добавляем отступ снизу */
         }
 
         h1 {
@@ -160,21 +161,7 @@
             <div class="content-block">
                 <h3>Ссылки</h3>
                 <div class="divider"></div>
-                <div class="content-item">
-                    <a href="https://www.youtube.com/@OrpoPro" target="_blank">YouTube</a>
-                </div>
-                <div class="content-item">
-                    <a href="https://github.com/OrpoPro" target="_blank">GitHub</a>
-                </div>
-                <div class="content-item">
-                    <a href="https://modrinth.com/user/OrpoPro" target="_blank">ModRinth</a>
-                </div>
-                <div class="content-item">
-                    <a href="https://www.tiktok.com/@play.icabu.net?_t=ZM-8zYRODV6ICs&_r=1" target="_blank">TikTok</a>
-                </div>
-                <div class="content-item">
-                    <a href="https://ru.namemc.com/profile/OrpoPro.1" target="_blank">NameMc</a>
-                </div>
+                <div id="links-container"></div>
             </div>
         </div>
 
@@ -183,24 +170,7 @@
             <div class="content-block">
                 <h3>Мнения</h3>
                 <div class="divider"></div>
-                <div class="content-item">
-                    <strong>Tlauncher:</strong> помойка и просто плохой лаунчер с вирусами
-                </div>
-                <div class="content-item">
-                    <strong>Legacy:</strong> так себе, есть куда лучше
-                </div>
-                <div class="content-item">
-                    <strong>Java</strong> лучше чем Bedrock 
-                </div>
-                <div class="content-item">
-                    <strong>Атеизм:</strong> слепая вера, а большинство атеистов — вообще не атеисты
-                </div>
-                <div class="content-item">
-                    <strong>Аборты:</strong> убийство человека
-                </div>
-                <div class="content-item">
-                    <strong>Слава Икабу</strong> 
-                </div>
+                <div id="opinions-container"></div>
             </div>
         </div>
     </div>
@@ -208,9 +178,16 @@
     <!-- Подключаем библиотеку particles.js -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     
+    <!-- Подключаем файл с данными -->
+    <script src="data.js"></script>
+    
     <script>
         // Инициализация частиц после загрузки страницы
         document.addEventListener('DOMContentLoaded', function() {
+            // Загружаем данные и отображаем их
+            loadLinks();
+            loadOpinions();
+            
             particlesJS('particles-js', {
                 "particles": {
                     "number": {
@@ -283,6 +260,32 @@
                 "retina_detect": true
             });
         });
+
+        // Функция загрузки ссылок
+        function loadLinks() {
+            const container = document.getElementById('links-container');
+            container.innerHTML = '';
+            
+            linksData.forEach(link => {
+                const item = document.createElement('div');
+                item.className = 'content-item';
+                item.innerHTML = `<a href="${link.url}" target="_blank">${link.name}</a>`;
+                container.appendChild(item);
+            });
+        }
+
+        // Функция загрузки мнений
+        function loadOpinions() {
+            const container = document.getElementById('opinions-container');
+            container.innerHTML = '';
+            
+            opinionsData.forEach(opinion => {
+                const item = document.createElement('div');
+                item.className = 'content-item';
+                item.innerHTML = `<strong>${opinion.title}:</strong> ${opinion.text}`;
+                container.appendChild(item);
+            });
+        }
 
         // Показ/скрытие контента
         function toggleContent(contentId) {
