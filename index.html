@@ -296,18 +296,27 @@
             allContents.forEach(item => {
                 if (item.id !== contentId) {
                     item.classList.remove('content-visible');
+                    item.style.maxHeight = '0px'; // Сбрасываем высоту
                 }
             });
             
-            // Переключаем текущий блок
-            content.classList.toggle('content-visible');
-            
-            // Плавная прокрутка к контенту
+            // Если контент уже видимый - скрываем
             if (content.classList.contains('content-visible')) {
+                content.classList.remove('content-visible');
+                content.style.maxHeight = '0px';
+            } else {
+                // Показываем контент
+                content.classList.add('content-visible');
+                
+                // Рассчитываем реальную высоту контента
+                const contentHeight = content.scrollHeight;
+                content.style.maxHeight = contentHeight + 'px';
+                
+                // Плавная прокрутка к контенту
                 setTimeout(() => {
                     content.scrollIntoView({ 
                         behavior: 'smooth', 
-                        block: 'center' 
+                        block: 'nearest' // или 'start'
                     });
                 }, 300);
             }
