@@ -39,7 +39,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding-bottom: 3rem; /* Исправление: добавляем отступ снизу */
+            padding-bottom: 3rem;
         }
 
         h1 {
@@ -103,21 +103,22 @@
             border: 1px solid rgba(255,255,255,0.2);
         }
 
+        /* Основные стили для плашек */
         .content-item {
             margin: 1rem 0;
             padding: 1rem;
             background: rgba(0,0,0,0.2);
             border-radius: 10px;
             border-left: 4px solid #3498db;
-            display: block; /* Делаем блочным элементом */
-            text-decoration: none; /* Убираем подчеркивание */
-            color: white; /* Белый цвет текста */
             transition: all 0.3s ease;
             position: relative;
         }
 
-        /* Стили для кликабельных плашек (ссылки) */
+        /* Стили для плашек-ссылок */
         .link-item {
+            display: block;
+            text-decoration: none;
+            color: white;
             cursor: pointer;
         }
         
@@ -145,13 +146,13 @@
             cursor: default;
         }
 
-        /* Убираем стандартные стили ссылки внутри плашки */
-        .content-item > a {
-            color: inherit;
-            text-decoration: none;
+        /* ВАЖНО: Делаем внутренний элемент блочным для всей области */
+        .link-item > .link-content {
             display: block;
             width: 100%;
             height: 100%;
+            position: relative;
+            z-index: 1;
         }
 
         .divider {
@@ -253,7 +254,7 @@
                         "distance": 150,
                         "color": "#ffffff",
                         "opacity": 0.4,
-                        "width": 1
+                        width: 1
                     },
                     "move": {
                         "enable": true,
@@ -294,19 +295,28 @@
             });
         });
 
-        // Функция загрузки ссылок (5-й вариант - полноценные ссылки)
+        // Функция загрузки ссылок - исправленная версия
         function loadLinks() {
             const container = document.getElementById('links-container');
             container.innerHTML = '';
             
             linksData.forEach(link => {
+                // Создаем ссылку
                 const item = document.createElement('a');
                 item.className = 'content-item link-item';
                 item.href = link.url;
                 item.target = '_blank';
                 item.rel = 'noopener noreferrer';
                 item.title = `Перейти на ${link.name}`;
-                item.innerHTML = link.name;
+                
+                // Создаем внутренний элемент, который занимает всю площадь
+                const content = document.createElement('span');
+                content.className = 'link-content';
+                content.textContent = link.name;
+                
+                // Добавляем внутренний элемент в ссылку
+                item.appendChild(content);
+                
                 container.appendChild(item);
             });
         }
@@ -353,7 +363,7 @@
                 setTimeout(() => {
                     content.scrollIntoView({ 
                         behavior: 'smooth', 
-                        block: 'nearest' // или 'start'
+                        block: 'nearest'
                     });
                 }, 300);
             }
