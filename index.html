@@ -128,6 +128,37 @@
             width: 100%;
         }
 
+/* Стиль для кликабельных плашек с ссылками */
+        .link-item {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .link-item:hover {
+            background: rgba(0, 0, 0, 0.3);
+            transform: translateX(5px);
+        }
+        
+        .link-item::after {
+            content: "↗";
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.6;
+            font-size: 1.2rem;
+        }
+        
+        .link-item:hover::after {
+            opacity: 1;
+        }
+        
+        /* Для обычных мнений - курсор по умолчанию */
+        .content-item:not(.link-item) {
+            cursor: default;
+        }
+
         @media (max-width: 768px) {
             h1 { font-size: 2rem; }
             p { font-size: 1rem; }
@@ -268,12 +299,14 @@
             
             linksData.forEach(link => {
                 const item = document.createElement('div');
-                item.className = 'content-item';
+                item.className = 'content-item link-item'; // добавляем класс link-item
+                item.setAttribute('data-url', link.url);
+                item.setAttribute('title', `Перейти на ${link.name}`);
                 item.innerHTML = `<a href="${link.url}" target="_blank">${link.name}</a>`;
                 container.appendChild(item);
             });
         }
-
+        
         // Функция загрузки мнений
         function loadOpinions() {
             const container = document.getElementById('opinions-container');
