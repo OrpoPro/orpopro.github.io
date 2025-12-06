@@ -109,30 +109,16 @@
             background: rgba(0,0,0,0.2);
             border-radius: 10px;
             border-left: 4px solid #3498db;
-        }
-
-        .content-item a {
-            color: #3498db;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .content-item a:hover {
-            text-decoration: underline;
-        }
-
-        .divider {
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            margin: 1.5rem 0;
-            width: 100%;
-        }
-
-/* Стиль для кликабельных плашек с ссылками */
-        .link-item {
-            cursor: pointer;
+            display: block; /* Делаем блочным элементом */
+            text-decoration: none; /* Убираем подчеркивание */
+            color: white; /* Белый цвет текста */
             transition: all 0.3s ease;
             position: relative;
+        }
+
+        /* Стили для кликабельных плашек (ссылки) */
+        .link-item {
+            cursor: pointer;
         }
         
         .link-item:hover {
@@ -157,6 +143,22 @@
         /* Для обычных мнений - курсор по умолчанию */
         .content-item:not(.link-item) {
             cursor: default;
+        }
+
+        /* Убираем стандартные стили ссылки внутри плашки */
+        .content-item > a {
+            color: inherit;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            margin: 1.5rem 0;
+            width: 100%;
         }
 
         @media (max-width: 768px) {
@@ -292,17 +294,19 @@
             });
         });
 
-        // Функция загрузки ссылок
+        // Функция загрузки ссылок (5-й вариант - полноценные ссылки)
         function loadLinks() {
             const container = document.getElementById('links-container');
             container.innerHTML = '';
             
             linksData.forEach(link => {
-                const item = document.createElement('div');
-                item.className = 'content-item link-item'; // добавляем класс link-item
-                item.setAttribute('data-url', link.url);
-                item.setAttribute('title', `Перейти на ${link.name}`);
-                item.innerHTML = `<a href="${link.url}" target="_blank">${link.name}</a>`;
+                const item = document.createElement('a');
+                item.className = 'content-item link-item';
+                item.href = link.url;
+                item.target = '_blank';
+                item.rel = 'noopener noreferrer';
+                item.title = `Перейти на ${link.name}`;
+                item.innerHTML = link.name;
                 container.appendChild(item);
             });
         }
