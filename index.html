@@ -450,6 +450,7 @@
         }
 
         // Открытие/закрытие мнения с диаграммой
+
         async function toggleOpinion(index) {
             const btn = document.querySelector(`#opinion-${index} .opinion-btn`);
             const diagramContainer = document.getElementById(`diagram-${index}`);
@@ -472,21 +473,41 @@
                 diagramContainer.classList.add('active');
                 btn.classList.add('active');
                 
-                // Если диаграмма еще не загружена - загружаем
-                if (!diagramContainer.dataset.loaded && opinionsData[index].diagram) {
+                // Если диаграмма еще не загружена - используем встроенную
+                if (!diagramContainer.dataset.loaded) {
                     try {
-                        const response = await fetch(opinionsData[index].diagram);
-                        if (response.ok) {
-                            const mermaidCode = await response.text();
+                        // Проверяем, есть ли путь к файлу или встроенная диаграмма
+                        if (opinionsData[index].diagram) {
+                            let mermaidCode;
+                            
+                            // Если диаграмма начинается с "graph" или "flowchart" - это встроенный код
+                            if (opinionsData[index].diagram.trim().startsWith('graph') || 
+                                opinionsData[index].diagram.trim().startsWith('flowchart')) {
+                                mermaidCode = opinionsData[index].diagram;
+                            } else {
+                                // Иначе пытаемся загрузить из файла
+                                const response = await fetch(opinionsData[index].diagram);
+                                if (response.ok) {
+                                    mermaidCode = await response.text();
+                                } else {
+                                    throw new Error('Файл не найден');
+                                }
+                            }
+                            
                             diagramContent.innerHTML = `<div class="mermaid">${mermaidCode}</div>`;
                             // Инициализируем Mermaid для новой диаграммы
                             mermaid.init(undefined, diagramContent.querySelector('.mermaid'));
-                        } else {
-                            diagramContent.innerHTML = '<p style="color: #ff6b6b; text-align: center;">Диаграмма не найдена</p>';
                         }
                     } catch (error) {
-                        diagramContent.innerHTML = '<p style="color: #ff6b6b; text-align: center;">Ошибка загрузки диаграммы</p>';
-                        console.error('Ошибка загрузки диаграммы:', error);
+                        console.warn('Ошибка загрузки диаграммы:', error);
+                        diagramContent.innerHTML = '<p style="color: #ff6b6b; text-align: center;">Используется встроенная диаграмма</p>';
+                        // Пытаемся использовать встроенную диаграмму, если есть
+                        if (opinionsData[index].diagram && 
+                            (opinionsData[index].diagram.trim().startsWith('graph') || 
+                             opinionsData[index].diagram.trim().startsWith('flowchart'))) {
+                            diagramContent.innerHTML = `<div class="mermaid">${opinionsData[index].diagram}</div>`;
+                            mermaid.init(undefined, diagramContent.querySelector('.mermaid'));
+                        }
                     }
                     diagramContainer.dataset.loaded = true;
                 }
