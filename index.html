@@ -246,24 +246,6 @@
             }
         }
 
-/* Исправление цвета текста в диаграммах Mermaid */
-        .mermaid .label {
-            color: #000000 !important;
-            font-family: 'Arial', sans-serif !important;
-        }
-        
-        .mermaid span {
-            color: #000000 !important;
-        }
-        
-        .mermaid foreignObject {
-            color: #000000 !important;
-        }
-        
-        .mermaid .nodeLabel, .mermaid .edgeLabel {
-            color: #000000 !important;
-            fill: #000000 !important;
-        }
         
         
     </style>
@@ -311,7 +293,7 @@
         // Инициализируем Mermaid с темной темой
         mermaid.initialize({
             startOnLoad: false,
-            theme: 'default',
+            theme: 'dark',
             securityLevel: 'loose',
             flowchart: {
                 curve: 'basis'
