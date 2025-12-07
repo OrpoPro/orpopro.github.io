@@ -7,6 +7,19 @@
 
     <link rel="icon" href="files/OrpoPro.png">
     
+    <!-- Подключаем Mermaid.js для диаграмм -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'dark',
+            securityLevel: 'loose',
+            flowchart: {
+                curve: 'basis'
+            }
+        });
+    </script>
+    
     <style>
         * {
             margin: 0;
@@ -18,6 +31,7 @@
             height: 100%;
             font-family: 'Arial', sans-serif;
             overflow-x: hidden;
+            background: #0f2027; /* Фон на случай отключения particles */
         }
 
         #particles-js {
@@ -90,7 +104,7 @@
         }
 
         .content-visible {
-            max-height: 500px;
+            max-height: 1000px; /* Увеличено для диаграмм */
             transition: max-height 0.5s ease-in;
         }
 
@@ -103,56 +117,86 @@
             border: 1px solid rgba(255,255,255,0.2);
         }
 
-        /* Основные стили для плашек */
-        .content-item {
+        /* Стили для плашек мнений */
+        .opinion-item {
             margin: 1rem 0;
-            padding: 1rem;
+            padding: 0;
             background: rgba(0,0,0,0.2);
             border-radius: 10px;
             border-left: 4px solid #3498db;
             transition: all 0.3s ease;
-            position: relative;
+            overflow: hidden;
         }
 
-        /* Стили для плашек-ссылок */
-        .link-item {
-            display: block;
-            text-decoration: none;
-            color: white;
-            cursor: pointer;
-        }
-        
-        .link-item:hover {
-            background: rgba(0, 0, 0, 0.3);
-            transform: translateX(5px);
-        }
-        
-        .link-item::after {
-            content: "↗";
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            opacity: 0.6;
-            font-size: 1.2rem;
-        }
-        
-        .link-item:hover::after {
-            opacity: 1;
-        }
-        
-        /* Для обычных мнений - курсор по умолчанию */
-        .content-item:not(.link-item) {
-            cursor: default;
-        }
-
-        /* ВАЖНО: Делаем внутренний элемент блочным для всей области */
-        .link-item > .link-content {
+        .opinion-btn {
             display: block;
             width: 100%;
-            height: 100%;
-            position: relative;
-            z-index: 1;
+            padding: 1rem;
+            text-align: left;
+            background: none;
+            border: none;
+            color: white;
+            font-family: inherit;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .opinion-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .opinion-btn::after {
+            content: "▼";
+            float: right;
+            transition: transform 0.3s;
+            opacity: 0.7;
+        }
+
+        .opinion-btn.active::after {
+            transform: rotate(180deg);
+        }
+
+        .opinion-btn strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #3498db;
+        }
+
+        /* Контейнер для диаграммы */
+        .diagram-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .diagram-container.active {
+            max-height: 600px;
+        }
+
+        .diagram-content {
+            padding: 1rem;
+        }
+
+        /* Стили для Mermaid диаграмм */
+        .mermaid {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow: auto;
+        }
+
+        /* Улучшаем отображение диаграмм */
+        .mermaid svg {
+            max-width: 100%;
+            height: auto !important;
+        }
+
+        .mermaid .label {
+            color: white !important;
+            font-family: 'Arial', sans-serif !important;
         }
 
         .divider {
@@ -172,6 +216,10 @@
             .btn {
                 width: 200px;
                 text-align: center;
+            }
+            .mermaid {
+                font-size: 12px;
+                padding: 0.5rem;
             }
         }
     </style>
@@ -295,28 +343,18 @@
             });
         });
 
-        // Функция загрузки ссылок - исправленная версия
+        // Функция загрузки ссылок
         function loadLinks() {
             const container = document.getElementById('links-container');
             container.innerHTML = '';
             
             linksData.forEach(link => {
-                // Создаем ссылку
                 const item = document.createElement('a');
-                item.className = 'content-item link-item';
+                item.className = 'opinion-item opinion-btn';
                 item.href = link.url;
                 item.target = '_blank';
                 item.rel = 'noopener noreferrer';
-                item.title = `Перейти на ${link.name}`;
-                
-                // Создаем внутренний элемент, который занимает всю площадь
-                const content = document.createElement('span');
-                content.className = 'link-content';
-                content.textContent = link.name;
-                
-                // Добавляем внутренний элемент в ссылку
-                item.appendChild(content);
-                
+                item.textContent = link.name;
                 container.appendChild(item);
             });
         }
@@ -326,15 +364,89 @@
             const container = document.getElementById('opinions-container');
             container.innerHTML = '';
             
-            opinionsData.forEach(opinion => {
-                const item = document.createElement('div');
-                item.className = 'content-item';
-                item.innerHTML = `<strong>${opinion.title}:</strong> ${opinion.text}`;
-                container.appendChild(item);
+            opinionsData.forEach((opinion, index) => {
+                // Создаем контейнер для каждого мнения
+                const opinionItem = document.createElement('div');
+                opinionItem.className = 'opinion-item';
+                opinionItem.id = `opinion-${index}`;
+                
+                // Кнопка для открытия/закрытия мнения
+                const opinionBtn = document.createElement('button');
+                opinionBtn.className = 'opinion-btn';
+                opinionBtn.textContent = opinion.text;
+                opinionBtn.onclick = function() {
+                    toggleOpinion(index);
+                };
+                
+                // Контейнер для диаграммы
+                const diagramContainer = document.createElement('div');
+                diagramContainer.className = 'diagram-container';
+                diagramContainer.id = `diagram-${index}`;
+                
+                // Внутренний контент для диаграммы
+                const diagramContent = document.createElement('div');
+                diagramContent.className = 'diagram-content';
+                diagramContainer.appendChild(diagramContent);
+                
+                opinionItem.appendChild(opinionBtn);
+                opinionItem.appendChild(diagramContainer);
+                container.appendChild(opinionItem);
             });
         }
 
-        // Показ/скрытие контента
+        // Открытие/закрытие мнения с диаграммой
+        async function toggleOpinion(index) {
+            const btn = document.querySelector(`#opinion-${index} .opinion-btn`);
+            const diagramContainer = document.getElementById(`diagram-${index}`);
+            const diagramContent = diagramContainer.querySelector('.diagram-content');
+            
+            // Закрываем все остальные мнения
+            document.querySelectorAll('.diagram-container').forEach(container => {
+                if (container.id !== `diagram-${index}`) {
+                    container.classList.remove('active');
+                    const otherBtn = container.parentElement.querySelector('.opinion-btn');
+                    if (otherBtn) otherBtn.classList.remove('active');
+                }
+            });
+            
+            // Переключаем текущее мнение
+            if (diagramContainer.classList.contains('active')) {
+                diagramContainer.classList.remove('active');
+                btn.classList.remove('active');
+            } else {
+                diagramContainer.classList.add('active');
+                btn.classList.add('active');
+                
+                // Если диаграмма еще не загружена - загружаем
+                if (!diagramContainer.dataset.loaded && opinionsData[index].diagram) {
+                    try {
+                        const response = await fetch(opinionsData[index].diagram);
+                        if (response.ok) {
+                            const mermaidCode = await response.text();
+                            diagramContent.innerHTML = `<div class="mermaid">${mermaidCode}</div>`;
+                            // Инициализируем Mermaid для новой диаграммы
+                            mermaid.init(undefined, diagramContent.querySelector('.mermaid'));
+                        } else {
+                            diagramContent.innerHTML = '<p style="color: #ff6b6b; text-align: center;">Диаграмма не найдена</p>';
+                        }
+                    } catch (error) {
+                        diagramContent.innerHTML = '<p style="color: #ff6b6b; text-align: center;">Ошибка загрузки диаграммы</p>';
+                        console.error('Ошибка загрузки диаграммы:', error);
+                    }
+                    diagramContainer.dataset.loaded = true;
+                }
+                
+                // Плавная прокрутка к открытой диаграмме
+                setTimeout(() => {
+                    diagramContainer.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'nearest' 
+                    });
+                }, 300);
+            }
+        }
+
+        // Показ/скрытие контента (ссылки/мнения)
         function toggleContent(contentId) {
             const content = document.getElementById(contentId);
             const allContents = document.querySelectorAll('.hidden-content');
@@ -343,7 +455,7 @@
             allContents.forEach(item => {
                 if (item.id !== contentId) {
                     item.classList.remove('content-visible');
-                    item.style.maxHeight = '0px'; // Сбрасываем высоту
+                    item.style.maxHeight = '0px';
                 }
             });
             
