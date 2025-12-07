@@ -7,10 +7,28 @@ const linksData = [
 ];
 
 const opinionsData = [
-    { title: "Tlauncher", text: "помойка и просто плохой лаунчер с вирусами" },
-    { title: "Legacy", text: "так себе, есть куда лучше" },
-    { title: "Java", text: "лучше чем Bedrock" },
-    { title: "Атеизм", text: "слепая вера, а большинство атеистов — вообще не атеисты" },
-    { title: "Аборты", text: "убийство человека" },
-    { title: "Слава", text: "Икабу" }
+    { 
+        text: "Tlauncher: помойка и просто плохой лаунчер с вирусами", 
+        diagram: "diagrams/tlauncher.mmd" 
+    },
+    { 
+        text: "Legacy: так себе, есть куда лучше", 
+        diagram: "diagrams/legacy.mmd" 
+    },
+    { 
+        text: "Java лучше чем Bedrock", 
+        diagram: "diagrams/java_vs_bedrock.mmd" 
+    },
+    { 
+        text: "Атеизм: слепая вера, а большинство атеистов — вообще не атеисты", 
+        diagram: "diagrams/atheism.mmd" 
+    },
+    { 
+        text: "Аборты: убийство человека", 
+        diagram: "diagrams/abortion.mmd" 
+    },
+    { 
+        text: "Слава Икабу", 
+        diagram: "diagrams/ikabu.mmd" 
+    }
 ];
