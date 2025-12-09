@@ -27,6 +27,10 @@ const opinionsData = [
         text: "Аборты: убийство человека", 
         diagram: "diagrams/abortion.mmd" 
     },
+    {
+        text:"«На Украине» корректно в соответствии с правилами языка",
+        diagram:""
+    },
     { 
         text: "Слава Икабу", 
         diagram: "diagrams/ikabu.mmd" 
