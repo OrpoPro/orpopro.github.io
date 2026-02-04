@@ -2,9 +2,9 @@ const linksData = [
     { name: "YouTube", url: "https://www.youtube.com/@OrpoPro" },
     { name: "GitHub", url: "https://github.com/OrpoPro" },
     { name: "ModRinth", url: "https://modrinth.com/user/OrpoPro" },
-    { name: "TikTok", url: "https://www.tiktok.com/@play.icabu.net?_t=ZM-8zYRODV6ICs&_r=1" },
-    { name:"Telegram", url: "https://t.me/OrpoPro" },
-    { name:"Telegram (Files)", url: "https://t.me/OrpoProlom" },
+    { name: "TikTok", url: "https://www.tiktok.com/@orpo.prolom" },
+    { name: "Telegram", url: "https://t.me/OrpoPro" },
+    { name: "Telegram (Files)", url: "https://t.me/OrpoProlom" },
     { name: "NameMc", url: "https://ru.namemc.com/profile/OrpoPro.1" }
 ];
 
