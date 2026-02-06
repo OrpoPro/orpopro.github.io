@@ -5,6 +5,7 @@ const linksData = [
     { name: "TikTok", url: "https://www.tiktok.com/@orpo.prolom" },
     { name: "Telegram", url: "https://t.me/OrpoPro" },
     { name: "Telegram (Files)", url: "https://t.me/OrpoProlom" },
+    { name: "exteraStore", url: "https://exterastore.app/developers/6103527445"},
     { name: "NameMc", url: "https://ru.namemc.com/profile/OrpoPro.1" }
 ];
 
