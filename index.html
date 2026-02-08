@@ -7,7 +7,6 @@
 
     <link rel="icon" href="files/OrpoPro.png">
     
-    <!-- Подключаем Mermaid.js для диаграмм -->
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     
     <style>
@@ -106,7 +105,6 @@
             border: 1px solid rgba(255,255,255,0.2);
         }
 
-        /* Стили для плашек мнений */
         .opinion-item {
             margin: 1rem 0;
             padding: 0;
@@ -146,7 +144,6 @@
             transform: rotate(180deg);
         }
 
-        /* Контейнер для диаграммы */
         .diagram-container {
             max-height: 0;
             overflow: hidden;
@@ -162,7 +159,7 @@
             padding: 1rem;
         }
 
-        /* Стили для Mermaid диаграмм */
+
         .mermaid {
             background: rgba(255,255,255,0.05);
             border-radius: 8px;
@@ -176,7 +173,6 @@
             height: auto !important;
         }
 
-        /* Улучшаем отображение диаграмм для темной темы */
         .mermaid .label {
             color: white !important;
         }
@@ -210,7 +206,7 @@
             width: 100%;
         }
 
-        /* Стили для ссылок */
+
         .link-item {
             display: block;
             margin: 1rem 0;
@@ -248,10 +244,10 @@
     </style>
 </head>
 <body>
-    <!-- Контейнер для частиц -->
+
     <div id="particles-js"></div>
     
-    <!-- Основное содержимое -->
+
     <div class="content">
         <h1>OrpoPro | OrpoProlom</h1>
         <p>Информация обо мне</p>
@@ -309,15 +305,15 @@
 
         // Инициализация частиц после загрузки страницы
         document.addEventListener('DOMContentLoaded', function() {
-            // Загружаем данные и отображаем их
+
             loadLinks();
             loadOpinions();
             
-            // Инициализация particles.js
+
             initParticles();
         });
 
-        // Функция инициализации частиц
+
         function initParticles() {
             particlesJS('particles-js', {
                 particles: {
@@ -398,7 +394,7 @@
             });
         }
 
-        // Функция загрузки ссылок
+
         function loadLinks() {
             const container = document.getElementById('links-container');
             container.innerHTML = '';
@@ -449,14 +445,13 @@
             });
         }
 
-        // Открытие/закрытие мнения с диаграммой
+
 
         async function toggleOpinion(index) {
             const btn = document.querySelector(`#opinion-${index} .opinion-btn`);
             const diagramContainer = document.getElementById(`diagram-${index}`);
             const diagramContent = diagramContainer.querySelector('.diagram-content');
-            
-            // Закрываем все остальные мнения
+
             document.querySelectorAll('.diagram-container').forEach(container => {
                 if (container.id !== `diagram-${index}`) {
                     container.classList.remove('active');
@@ -465,7 +460,7 @@
                 }
             });
             
-            // Переключаем текущее мнение
+
             if (diagramContainer.classList.contains('active')) {
                 diagramContainer.classList.remove('active');
                 btn.classList.remove('active');
@@ -473,14 +468,12 @@
                 diagramContainer.classList.add('active');
                 btn.classList.add('active');
                 
-                // Если диаграмма еще не загружена - используем встроенную
                 if (!diagramContainer.dataset.loaded) {
                     try {
-                        // Проверяем, есть ли путь к файлу или встроенная диаграмма
+   
                         if (opinionsData[index].diagram) {
                             let mermaidCode;
-                            
-                            // Если диаграмма начинается с "graph" или "flowchart" - это встроенный код
+
                             if (opinionsData[index].diagram.trim().startsWith('graph') || 
                                 opinionsData[index].diagram.trim().startsWith('flowchart')) {
                                 mermaidCode = opinionsData[index].diagram;
