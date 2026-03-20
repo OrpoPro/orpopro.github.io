@@ -1,17 +1,18 @@
 const linksData = [
     { name: "YouTube", url: "https://www.youtube.com/@OrpoPro" },
     { name: "GitHub", url: "https://github.com/OrpoPro" },
-    { name: "ModRinth", url: "https://modrinth.com/user/OrpoPro" },
+    { name: "Modrinth", url: "https://modrinth.com/user/OrpoPro" },
     { name: "TikTok", url: "https://www.tiktok.com/@orpo.prolom" },
     { name: "Telegram", url: "https://t.me/OrpoPro" },
     { name: "Telegram (Files)", url: "https://t.me/OrpoProlom" },
     { name: "exteraStore", url: "https://exterastore.app/developers/6103527445"},
-    { name: "NameMc", url: "https://ru.namemc.com/profile/OrpoPro.1" }
+    { name: "NameMc", url: "https://ru.namemc.com/profile/OrpoPro.1"},
+    { name: "Discord", utl: "https://discord.gg/PQetHwHwMu"}
 ];
 
 const opinionsData = [
     { 
-        text: "Tlauncher: помойка и просто плохой лаунчер с вирусами", 
+        text: "Tlauncher и KLauncher: помойка и просто плохой лаунчер с вирусами", 
         diagram: "diagrams/tlauncher.mmd" 
     },
     { 
