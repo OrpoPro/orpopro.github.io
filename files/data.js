@@ -24,7 +24,7 @@ const opinionsData = [
         diagram: "diagrams/java_vs_bedrock.mmd" 
     },
     { 
-        text: "Любой антивирус это плохая гарантия безопасности. Хорошие это исходный код и репутация", 
+        text: "Чтобы считать программу безопасной антивируса мало", 
         diagram: "diagrams/java_vs_bedrock.mmd" 
     },
     { 
