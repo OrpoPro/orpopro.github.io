@@ -20,7 +20,7 @@ const opinionsData = [
         diagram: "diagrams/legacy.mmd" 
     },
     { 
-        text: "Java лучше чем Bedrock", 
+        text: "Bedrock: корпоративная пародия на Java", 
         diagram: "diagrams/java_vs_bedrock.mmd" 
     },
     { 
