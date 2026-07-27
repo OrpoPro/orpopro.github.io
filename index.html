@@ -105,107 +105,12 @@
             border: 1px solid rgba(255,255,255,0.2);
         }
 
-        .opinion-item {
-            margin: 1rem 0;
-            padding: 0;
-            background: rgba(0,0,0,0.2);
-            border-radius: 10px;
-            border-left: 4px solid #3498db;
-            transition: all 0.3s ease;
-            overflow: hidden;
-        }
-
-        .opinion-btn {
-            display: block;
-            width: 100%;
-            padding: 1rem;
-            text-align: left;
-            background: none;
-            border: none;
-            color: white;
-            font-family: inherit;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .opinion-btn:hover {
-            background: rgba(255,255,255,0.1);
-        }
-
-        .opinion-btn::after {
-            content: "▼";
-            float: right;
-            transition: transform 0.3s;
-            opacity: 0.7;
-        }
-
-        .opinion-btn.active::after {
-            transform: rotate(180deg);
-        }
-
-        .diagram-container {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease;
-            background: rgba(0,0,0,0.3);
-        }
-
-        .diagram-container.active {
-            max-height: 600px;
-        }
-
-        .diagram-content {
-            padding: 1rem;
-        }
-
-
-        .mermaid {
-            background: rgba(255,255,255,0.05);
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 1rem 0;
-            overflow: auto;
-        }
-
-        .mermaid svg {
-            max-width: 100%;
-            height: auto !important;
-        }
-
-        .mermaid .label {
-            color: white !important;
-        }
-
-        .mermaid .node rect,
-        .mermaid .node circle,
-        .mermaid .node ellipse,
-        .mermaid .node polygon,
-        .mermaid .node path {
-            fill: #2c5364 !important;
-            stroke: #3498db !important;
-        }
-
-        .mermaid .edgePath .path {
-            stroke: #3498db !important;
-        }
-
-        .mermaid .arrowheadPath {
-            fill: #3498db !important;
-        }
-
-        .mermaid .cluster rect {
-            fill: rgba(44, 83, 100, 0.3) !important;
-            stroke: rgba(52, 152, 219, 0.5) !important;
-        }
-
         .divider {
             height: 2px;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
             margin: 1.5rem 0;
             width: 100%;
         }
-
 
         .link-item {
             display: block;
@@ -236,17 +141,12 @@
                 width: 200px;
                 text-align: center;
             }
-            .mermaid {
-                font-size: 12px;
-                padding: 0.5rem;
-            }
         }
     </style>
 </head>
 <body>
 
     <div id="particles-js"></div>
-    
 
     <div class="content">
         <h1>OrpoPro | OrpoProlom</h1>
@@ -254,7 +154,6 @@
         
         <div class="links">
             <div class="btn" onclick="toggleContent('links-content')">Ссылки</div>
-            <div class="btn" onclick="toggleContent('opinions-content')">Мнения</div>
         </div>
 
         <!-- Скрытый контент для ссылок -->
@@ -263,15 +162,6 @@
                 <h3>Ссылки</h3>
                 <div class="divider"></div>
                 <div id="links-container"></div>
-            </div>
-        </div>
-
-        <!-- Скрытый контент для мнений -->
-        <div id="opinions-content" class="hidden-content">
-            <div class="content-block">
-                <h3>Мнения</h3>
-                <div class="divider"></div>
-                <div id="opinions-container"></div>
             </div>
         </div>
     </div>
@@ -283,36 +173,11 @@
     <script src="files/data.js"></script>
     
     <script>
-        // Инициализируем Mermaid с темной темой
-        mermaid.initialize({
-            startOnLoad: false,
-            theme: 'dark',
-            securityLevel: 'loose',
-            flowchart: {
-                curve: 'basis'
-            },
-            themeVariables: {
-                darkMode: true,
-                background: '#0f2027',
-                primaryColor: '#2c5364',
-                primaryBorderColor: '#3498db',
-                primaryTextColor: '#ffffff',
-                lineColor: '#3498db',
-                secondaryColor: '#203a43',
-                tertiaryColor: '#2c5364'
-            }
-        });
-
         // Инициализация частиц после загрузки страницы
         document.addEventListener('DOMContentLoaded', function() {
-
             loadLinks();
-            loadOpinions();
-            
-
             initParticles();
         });
-
 
         function initParticles() {
             particlesJS('particles-js', {
@@ -394,7 +259,6 @@
             });
         }
 
-
         function loadLinks() {
             const container = document.getElementById('links-container');
             container.innerHTML = '';
@@ -409,113 +273,8 @@
                 container.appendChild(item);
             });
         }
-        
-        // Функция загрузки мнений
-        function loadOpinions() {
-            const container = document.getElementById('opinions-container');
-            container.innerHTML = '';
-            
-            opinionsData.forEach((opinion, index) => {
-                // Создаем контейнер для каждого мнения
-                const opinionItem = document.createElement('div');
-                opinionItem.className = 'opinion-item';
-                opinionItem.id = `opinion-${index}`;
-                
-                // Кнопка для открытия/закрытия мнения
-                const opinionBtn = document.createElement('button');
-                opinionBtn.className = 'opinion-btn';
-                opinionBtn.textContent = opinion.text;
-                opinionBtn.onclick = function() {
-                    toggleOpinion(index);
-                };
-                
-                // Контейнер для диаграммы
-                const diagramContainer = document.createElement('div');
-                diagramContainer.className = 'diagram-container';
-                diagramContainer.id = `diagram-${index}`;
-                
-                // Внутренний контент для диаграммы
-                const diagramContent = document.createElement('div');
-                diagramContent.className = 'diagram-content';
-                diagramContainer.appendChild(diagramContent);
-                
-                opinionItem.appendChild(opinionBtn);
-                opinionItem.appendChild(diagramContainer);
-                container.appendChild(opinionItem);
-            });
-        }
 
-
-
-        async function toggleOpinion(index) {
-            const btn = document.querySelector(`#opinion-${index} .opinion-btn`);
-            const diagramContainer = document.getElementById(`diagram-${index}`);
-            const diagramContent = diagramContainer.querySelector('.diagram-content');
-
-            document.querySelectorAll('.diagram-container').forEach(container => {
-                if (container.id !== `diagram-${index}`) {
-                    container.classList.remove('active');
-                    const otherBtn = container.parentElement.querySelector('.opinion-btn');
-                    if (otherBtn) otherBtn.classList.remove('active');
-                }
-            });
-            
-
-            if (diagramContainer.classList.contains('active')) {
-                diagramContainer.classList.remove('active');
-                btn.classList.remove('active');
-            } else {
-                diagramContainer.classList.add('active');
-                btn.classList.add('active');
-                
-                if (!diagramContainer.dataset.loaded) {
-                    try {
-   
-                        if (opinionsData[index].diagram) {
-                            let mermaidCode;
-
-                            if (opinionsData[index].diagram.trim().startsWith('graph') || 
-                                opinionsData[index].diagram.trim().startsWith('flowchart')) {
-                                mermaidCode = opinionsData[index].diagram;
-                            } else {
-                                // Иначе пытаемся загрузить из файла
-                                const response = await fetch(opinionsData[index].diagram);
-                                if (response.ok) {
-                                    mermaidCode = await response.text();
-                                } else {
-                                    throw new Error('Файл не найден');
-                                }
-                            }
-                            
-                            diagramContent.innerHTML = `<div class="mermaid">${mermaidCode}</div>`;
-                            // Инициализируем Mermaid для новой диаграммы
-                            mermaid.init(undefined, diagramContent.querySelector('.mermaid'));
-                        }
-                    } catch (error) {
-                        console.warn('Ошибка загрузки диаграммы:', error);
-                        diagramContent.innerHTML = '<p style="color: #ff6b6b; text-align: center;">Используется встроенная диаграмма</p>';
-                        // Пытаемся использовать встроенную диаграмму, если есть
-                        if (opinionsData[index].diagram && 
-                            (opinionsData[index].diagram.trim().startsWith('graph') || 
-                             opinionsData[index].diagram.trim().startsWith('flowchart'))) {
-                            diagramContent.innerHTML = `<div class="mermaid">${opinionsData[index].diagram}</div>`;
-                            mermaid.init(undefined, diagramContent.querySelector('.mermaid'));
-                        }
-                    }
-                    diagramContainer.dataset.loaded = true;
-                }
-                
-                // Плавная прокрутка к открытой диаграмме
-                setTimeout(() => {
-                    diagramContainer.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'nearest' 
-                    });
-                }, 300);
-            }
-        }
-
-        // Показ/скрытие контента (ссылки/мнения)
+        // Показ/скрытие контента (ссылки)
         function toggleContent(contentId) {
             const content = document.getElementById(contentId);
             const allContents = document.querySelectorAll('.hidden-content');
@@ -524,21 +283,14 @@
             allContents.forEach(item => {
                 if (item.id !== contentId) {
                     item.classList.remove('content-visible');
-                    item.style.maxHeight = '0px';
                 }
             });
             
-            // Если контент уже видимый - скрываем
+            // Переключаем видимость текущего блока
             if (content.classList.contains('content-visible')) {
                 content.classList.remove('content-visible');
-                content.style.maxHeight = '0px';
             } else {
-                // Показываем контент
                 content.classList.add('content-visible');
-                
-                // Рассчитываем реальную высоту контента
-                const contentHeight = content.scrollHeight;
-                content.style.maxHeight = contentHeight + 'px';
                 
                 // Плавная прокрутка к контенту
                 setTimeout(() => {
