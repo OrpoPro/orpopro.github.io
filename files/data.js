@@ -9,34 +9,3 @@ const linksData = [
     { name: "NameMc", url: "https://ru.namemc.com/profile/OrpoPro.1"},
     { name: "Discord", utl: "https://discord.gg/PQetHwHwMu"}
 ];
-
-const opinionsData = [
-    { 
-        text: "Tlauncher и KLauncher: помойка и просто плохой лаунчер с вирусами", 
-        diagram: "diagrams/tlauncher.mmd" 
-    },
-    { 
-        text: "Legacy: так себе, есть куда лучше", 
-        diagram: "diagrams/legacy.mmd" 
-    },
-    { 
-        text: "Bedrock: корпоративная пародия на Java", 
-        diagram: "diagrams/java_vs_bedrock.mmd" 
-    },
-    { 
-        text: "Чтобы считать программу безопасной антивируса мало", 
-        diagram: "diagrams/java_vs_bedrock.mmd" 
-    },
-    { 
-        text: "Атеизм: слепая вера, а большинство атеистов — вообще не атеисты", 
-        diagram: "diagrams/atheism.mmd" 
-    },
-    { 
-        text: "Аборты: убийство человека", 
-        diagram: "diagrams/abortion.mmd" 
-    },
-    { 
-        text: "Слава Икабу", 
-        diagram: "diagrams/ikabu.mmd" 
-    }
-];
