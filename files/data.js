@@ -7,5 +7,6 @@ const linksData = [
     { name: "Telegram (Files)", url: "https://t.me/OrpoProlom" },
     { name: "exteraStore", url: "https://exterastore.app/developers/6103527445"},
     { name: "NameMc", url: "https://ru.namemc.com/profile/OrpoPro.1"},
-    { name: "Discord", utl: "https://discord.gg/PQetHwHwMu"}
+    { name: "Discord", utl: "https://discord.gg/PQetHwHwMu"},
+    { name: "My minecraft modpack", url: "https://modrinth.com/modpack/main-orpopro-modpack"}
 ];
